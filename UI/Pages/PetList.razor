@@ -1,0 +1,40 @@
+﻿@page "/petlist"
+@inject HttpClient Http
+
+<h1>List of registered pets</h1>
+
+@if (Pets == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Kind</th>
+                <th>Age</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var pet in Pets)
+            {
+                <tr>
+                    <td>@pet.Name</td>
+                    <td>@pet.Kind</td>
+                    <td>@pet.Age</td>                    
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private VetClinic.Shared.Pet[] Pets;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Pets = await Http.GetFromJsonAsync<VetClinic.Shared.Pet[]>("https://localhost:44358/Pet");
+    }
+}
