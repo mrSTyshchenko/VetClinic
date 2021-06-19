@@ -7,15 +7,11 @@ namespace VetClinic.DAL
 {
     public class PetInMemoryStore : IPetStore
     {
-        private readonly List<Pet> pets;
-        public PetInMemoryStore()
+        private static readonly List<Pet> pets = new()
         {
-            pets = new List<Pet>
-            {
-                    new Pet { Id=1, Name = "Tom", Kind = "Cat", Age = 3 },
-                    new Pet { Id=2, Name = "Jery", Kind = "Mouse", Age = 2 }
-            };
-        }
+            new Pet { Id = 1, Name = "Tom", Kind = "Cat", Age = 3 },
+            new Pet { Id = 2, Name = "Jery", Kind = "Mouse", Age = 2 }
+        };
 
         public Pet Create(Pet pet)
         {
@@ -37,8 +33,8 @@ namespace VetClinic.DAL
 
         public Pet Update(Pet pet)
         {
-            var petInStore = pets.FirstOrDefault(p => p.Id == pet.Id);
-            petInStore = pet;
+            var petIndex = pets.IndexOf(pets.FirstOrDefault(p => p.Id == pet.Id));
+            pets[petIndex] = pet;
             return pet;
         }
     }
