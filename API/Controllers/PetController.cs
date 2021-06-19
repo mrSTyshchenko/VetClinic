@@ -5,29 +5,46 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using VetClinic.Shared;
+using VetClinic.DAL;
 using Microsoft.Extensions.Logging;
 
 namespace VetClinic.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class PetController : Controller
+    public class PetController : ControllerBase
     {
         private readonly ILogger<PetController> logger;
+        private readonly IPetStore petStore;
 
-        public PetController(ILogger<PetController> logger)
+        public PetController(ILogger<PetController> logger, IPetStore petStore)
         {
             this.logger = logger;
-        }            
+            this.petStore = petStore;
+        }
 
         [HttpGet]
         public IEnumerable<Pet> Get()
         {
-            return new List<Pet> 
-            { 
-                new Pet { Name = "Tom", Kind = "Cat", Age = 3 },
-                new Pet { Name = "Jery", Kind = "Mouse", Age = 2 } 
-            };
+            return petStore.GetPets();            
+        }
+
+        [HttpPost]
+        public Pet Create(Pet pet)
+        {
+            return petStore.Create(pet);
+        }
+
+        [HttpDelete]
+        public void Delete(int id)
+        {
+            petStore.Delete(id);
+        }
+
+        [HttpPatch]
+        public Pet Update(Pet pet)
+        {
+           return petStore.Update(pet);
         }
     }
 }
