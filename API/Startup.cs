@@ -42,7 +42,12 @@ namespace VetClinic.API
                                   });
             });
 
-            services.AddControllers();
+            services.AddControllers(setupActions =>
+            {
+                setupActions.ReturnHttpNotAcceptable = true;
+
+            }).AddXmlDataContractSerializerFormatters();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "VetClinic.API", Version = "v1" });

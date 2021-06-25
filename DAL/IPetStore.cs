@@ -10,6 +10,7 @@ namespace VetClinic.DAL
     public interface IPetStore
     {
         public IEnumerable<Pet> GetPets();
+        public Pet GetPet(int petId);
         public Pet Create(Pet pet);
         public Pet Update(Pet pet);
         public void Delete(int petId);

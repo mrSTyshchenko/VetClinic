@@ -31,6 +31,11 @@ namespace VetClinic.DAL
             return pets;
         }
 
+        public Pet GetPet(int petId)
+        {
+            return pets.FirstOrDefault(p => p.Id == petId);
+        }
+
         public Pet Update(Pet pet)
         {
             var petIndex = pets.IndexOf(pets.FirstOrDefault(p => p.Id == pet.Id));

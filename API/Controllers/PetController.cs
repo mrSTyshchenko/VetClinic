@@ -11,22 +11,33 @@ using Microsoft.Extensions.Logging;
 namespace VetClinic.API.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/pets")]
     public class PetController : ControllerBase
-    {
-        private readonly ILogger<PetController> logger;
+    {        
         private readonly IPetStore petStore;
 
-        public PetController(ILogger<PetController> logger, IPetStore petStore)
+        public PetController(IPetStore petStore)
         {
-            this.logger = logger;
             this.petStore = petStore;
         }
 
-        [HttpGet]
-        public IEnumerable<Pet> Get()
+        [HttpGet()]
+        public IActionResult Get()
         {
-            return petStore.GetPets();            
+            return Ok(petStore.GetPets());
+        }
+
+        [HttpGet("{petId:int}")]
+        public IActionResult Get(int petId)
+        {
+            var pet = petStore.GetPet(petId);
+
+            if (pet == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(pet);
         }
 
         [HttpPost]
