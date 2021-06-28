@@ -25,7 +25,7 @@ namespace VetClinic.API.Controllers
         }
 
         [HttpGet()]
-        public ActionResult<Models.PetDto> Get()
+        public ActionResult<IEnumerable<Models.PetDto>> Get()
         {
             var pets = petStore.GetPets();
 
@@ -33,7 +33,7 @@ namespace VetClinic.API.Controllers
         }
 
         [HttpGet("{petId:int}")]
-        public IActionResult Get(int petId)
+        public ActionResult<Models.PetDto> Get(int petId)
         {
             var pet = petStore.GetPet(petId);
 
@@ -42,7 +42,7 @@ namespace VetClinic.API.Controllers
                 return NotFound();
             }
 
-            return Ok(pet);
+            return Ok(mapper.Map<Models.PetDto>(pet));
         }
 
         [HttpPost]
