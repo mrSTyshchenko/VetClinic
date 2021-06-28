@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using VetClinic.Shared;
 using VetClinic.DAL;
 using Microsoft.Extensions.Logging;
+using AutoMapper;
 
 namespace VetClinic.API.Controllers
 {
@@ -15,16 +16,20 @@ namespace VetClinic.API.Controllers
     public class PetController : ControllerBase
     {        
         private readonly IPetStore petStore;
+        private readonly IMapper mapper;
 
-        public PetController(IPetStore petStore)
+        public PetController(IPetStore petStore, IMapper mapper)
         {
+            this.mapper = mapper;
             this.petStore = petStore;
         }
 
         [HttpGet()]
-        public IActionResult Get()
+        public ActionResult<Models.PetDto> Get()
         {
-            return Ok(petStore.GetPets());
+            var pets = petStore.GetPets();
+
+            return Ok(mapper.Map<IEnumerable<Models.PetDto>>(pets));
         }
 
         [HttpGet("{petId:int}")]

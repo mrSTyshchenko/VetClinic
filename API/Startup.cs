@@ -48,6 +48,8 @@ namespace VetClinic.API
 
             }).AddXmlDataContractSerializerFormatters();
 
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "VetClinic.API", Version = "v1" });
